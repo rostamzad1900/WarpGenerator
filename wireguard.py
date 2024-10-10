@@ -1,5 +1,5 @@
 import json
-import pyperclip
+#import pyperclip
 sample_outband ={
   "type": "wireguard",
   "tag": "W1",
@@ -36,7 +36,7 @@ with open("wgcf-profile.conf", "r") as file:
 
     json_object = json.dumps(outbounds, indent = 2)
     print(json_object)
-    pyperclip.copy(json_object)
+    # pyperclip.copy(json_object)
     with open("sample.json", "w") as js:
         json.dump(outbounds, js, indent = 2)
 
