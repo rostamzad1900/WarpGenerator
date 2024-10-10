@@ -1,5 +1,5 @@
 import json
-
+import pyperclip
 sample_outband ={
   "type": "wireguard",
   "tag": "W1",
@@ -21,21 +21,22 @@ outbounds = {"outbounds": []}
 
 num = 1
 with open("wgcf-profile.conf", "r") as file:
-    f = file.readlines()
-    sample_outband["private_key"] = f[1].split(" ")[2].strip()
-    sample_outband["peer_public_key"] = f[7].split(" ")[2].strip()
-    sample_outband["server"] = f[10].split("=")[1].strip().split(":")[0].strip()
-    sample_outband["server_port"] = int(f[10].split("=")[1].strip().split(":")[1].strip())
+    lines = file.readlines()
+    sample_outband["private_key"] = lines[1].split(" ")[2].strip()
+    sample_outband["peer_public_key"] = lines[7].split(" ")[2].strip()
+    sample_outband["server"] = lines[10].split("=")[1].strip().split(":")[0].strip()
+    sample_outband["server_port"] = int(lines[10].split("=")[1].strip().split(":")[1].strip())
 
     sample_outband["tag"] = f"W{num}"
-    addressV4 = f[2].split("=")[1].strip()
-    addressV6 = f[3].split("=")[1].strip()
+    addressV4 = lines[2].split("=")[1].strip()
+    addressV6 = lines[3].split("=")[1].strip()
     sample_outband["local_address"] = [addressV4, addressV6]
 
     outbounds["outbounds"].append(sample_outband)
 
     json_object = json.dumps(outbounds, indent = 2)
     print(json_object)
+    pyperclip.copy(json_object)
     with open("sample.json", "w") as js:
-        json.dump(json_object, js)
+        json.dump(outbounds, js, indent = 2)
 
